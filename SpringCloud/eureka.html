@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Eureka从0到1完整实践(上) —— 基于Eureka构建最简服务治理方案 | Joey Studio</title>
+    <meta name="description" content="Joey Studio">
+    <link rel="icon" href="/icon.png">
+    
+    <link rel="preload" href="/assets/css/0.styles.fb6ef450.css" as="style"><link rel="preload" href="/assets/js/app.6496ed3f.js" as="script"><link rel="preload" href="/assets/js/35.abff669d.js" as="script"><link rel="prefetch" href="/assets/js/2.154dcc5e.js"><link rel="prefetch" href="/assets/js/3.2d1485e9.js"><link rel="prefetch" href="/assets/js/4.bff3c410.js"><link rel="prefetch" href="/assets/js/5.dae9ed13.js"><link rel="prefetch" href="/assets/js/6.0e78168f.js"><link rel="prefetch" href="/assets/js/7.080d07e2.js"><link rel="prefetch" href="/assets/js/8.b51527e8.js"><link rel="prefetch" href="/assets/js/9.47e0dfdd.js"><link rel="prefetch" href="/assets/js/10.df869b81.js"><link rel="prefetch" href="/assets/js/11.ca769e48.js"><link rel="prefetch" href="/assets/js/12.054daf01.js"><link rel="prefetch" href="/assets/js/13.a59e5c03.js"><link rel="prefetch" href="/assets/js/14.0b0c8a1d.js"><link rel="prefetch" href="/assets/js/15.a62e713d.js"><link rel="prefetch" href="/assets/js/16.1f5c82f7.js"><link rel="prefetch" href="/assets/js/17.12cc41fd.js"><link rel="prefetch" href="/assets/js/18.9a24a91a.js"><link rel="prefetch" href="/assets/js/19.f6abe518.js"><link rel="prefetch" href="/assets/js/20.e65b6931.js"><link rel="prefetch" href="/assets/js/21.0b676c70.js"><link rel="prefetch" href="/assets/js/22.439a1331.js"><link rel="prefetch" href="/assets/js/23.ba536dc8.js"><link rel="prefetch" href="/assets/js/24.c320b32b.js"><link rel="prefetch" href="/assets/js/25.3e421fe3.js"><link rel="prefetch" href="/assets/js/26.2231c0ca.js"><link rel="prefetch" href="/assets/js/27.bcc817c1.js"><link rel="prefetch" href="/assets/js/28.c2c3d444.js"><link rel="prefetch" href="/assets/js/29.2ead0a19.js"><link rel="prefetch" href="/assets/js/30.1255fe73.js"><link rel="prefetch" href="/assets/js/31.560e43a1.js"><link rel="prefetch" href="/assets/js/32.4763ce13.js"><link rel="prefetch" href="/assets/js/33.f65b93ac.js"><link rel="prefetch" href="/assets/js/34.503ff2e4.js"><link rel="prefetch" href="/assets/js/36.aa126b1a.js"><link rel="prefetch" href="/assets/js/37.92bebcb1.js"><link rel="prefetch" href="/assets/js/38.c3c64b7f.js"><link rel="prefetch" href="/assets/js/39.d86c8f5e.js"><link rel="prefetch" href="/assets/js/40.17162130.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.fb6ef450.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Joey Studio</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">主页</a></div><div class="nav-item"><a href="/Web/" class="nav-link">工具</a></div><div class="nav-item"><a href="/JVM/" class="nav-link">JVM</a></div><div class="nav-item"><a href="/SpringCloud/" class="nav-link router-link-active">微服务</a></div><div class="nav-item"><a href="/about/" class="nav-link">关于我</a></div><div class="nav-item"><a href="https://github.com/slowside45" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">主页</a></div><div class="nav-item"><a href="/Web/" class="nav-link">工具</a></div><div class="nav-item"><a href="/JVM/" class="nav-link">JVM</a></div><div class="nav-item"><a href="/SpringCloud/" class="nav-link router-link-active">微服务</a></div><div class="nav-item"><a href="/about/" class="nav-link">关于我</a></div><div class="nav-item"><a href="https://github.com/slowside45" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/SpringCloud/eureka.html" class="active sidebar-link">Eureka从0到1完整实践(上) —— 基于Eureka构建最简服务治理方案</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/SpringCloud/eureka.html#参考链接" class="sidebar-link">参考链接</a></li><li class="sidebar-sub-header"><a href="/SpringCloud/eureka.html#服务治理的意义" class="sidebar-link">服务治理的意义</a></li><li class="sidebar-sub-header"><a href="/SpringCloud/eureka.html#初识eureka——eureka的两种角色" class="sidebar-link">初识Eureka——Eureka的两种角色</a></li><li class="sidebar-sub-header"><a href="/SpringCloud/eureka.html#_1-创建gradle父级容器项目" class="sidebar-link">1. 创建Gradle父级容器项目</a></li><li class="sidebar-sub-header"><a href="/SpringCloud/eureka.html#_2-（可选）配置本地gradle-home" class="sidebar-link">2.（可选）配置本地Gradle home</a></li><li class="sidebar-sub-header"><a href="/SpringCloud/eureka.html#_3-构建eureka-server" class="sidebar-link">3. 构建Eureka-Server</a></li><li class="sidebar-sub-header"><a href="/SpringCloud/eureka.html#_4-构建eureka-client" class="sidebar-link">4. 构建Eureka Client</a></li><li class="sidebar-sub-header"><a href="/SpringCloud/eureka.html#_5-构建服务消费者" class="sidebar-link">5. 构建服务消费者</a></li><li class="sidebar-sub-header"><a href="/SpringCloud/eureka.html#注意事项" class="sidebar-link">注意事项</a></li><li class="sidebar-sub-header"><a href="/SpringCloud/eureka.html#源码地址" class="sidebar-link">源码地址</a></li></ul></li><li><a href="/SpringCloud/eureka-plus.html" class="sidebar-link">Eureka从0到1完整实践(下) —— 基于Eureka实现高可用的服务治理方案</a></li></ul> </div> <div class="page"> <div class="content"><h1 id="eureka从0到1完整实践-上-——-基于eureka构建最简服务治理方案"><a href="#eureka从0到1完整实践-上-——-基于eureka构建最简服务治理方案" aria-hidden="true" class="header-anchor">#</a> Eureka从0到1完整实践(上) —— 基于Eureka构建最简服务治理方案</h1> <p>本项目全程使用Gradle完成构建，Gradle版本为5.4.1</p> <h2 id="参考链接"><a href="#参考链接" aria-hidden="true" class="header-anchor">#</a> 参考链接</h2> <ul><li>详细的Eureka使用指南（基于Maven）：<a href="https://juejin.im/post/5dc80a8d6fb9a04ac07ce52f#heading-14" target="_blank" rel="noopener noreferrer">学习SpringCloud Eureka带你从0到1<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> —— @鲁毅</li> <li>详细的SpringCloud学习路线：<a href="https://juejin.im/post/5b83466b6fb9a019b421cecc#heading-12" target="_blank" rel="noopener noreferrer">外行人都能看懂的SpringCloud，错过了血亏！<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> —— @Java3y</li> <li>详细的Gradle项目build.gradle文件配置指南：<a href="https://blog.csdn.net/weixin_38970805/article/details/82463122" target="_blank" rel="noopener noreferrer">SpringCloud-1创建gradle项目，配置eureka注册中心<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> —— @你的小马哥</li></ul> <p>在此，我想感谢以上作者带给我的启发，并向各位表达最深的敬意！</p> <p><strong>本篇文章，将记录一个最简单点Eureka模型的搭建步骤。</strong> <img src="/assets/img/eureka-simple-model.7048c947.png" alt></p> <h2 id="服务治理的意义"><a href="#服务治理的意义" aria-hidden="true" class="header-anchor">#</a> 服务治理的意义</h2> <p>试想，当我们面临多个服务之间需要互相调用时，最简单的方式就是使用类似于HttpClient或OKHttp等常见的Http/Https请求框架来进行调用。在服务url信息发生改变时，为了尽可能花费较小代价完成服务的更新，我们需要将它放到配置文件中。这样省去了修改源码 → 编译 → 上传这一流程，只需要修改配置文件中的url信息，重启服务即可。</p> <p>短时间内看来，我们只需要考虑维护极少的服务配置文件和服务，这样似乎没有太大问题。可随着时间推移，我们面对的业务场景越来越复杂，我们不得不根据不同场景，增加服务、或将一个服务拆分成多个，随之而来的是更为繁杂的维护工作。**这时，有一个线上服务横空出世，它就是注册中心。它可以将我们所有服务的url信息、路由信息等进行统一管理，并提供查询API，在某一服务内部需要调用被统一管理的另一个服务时，只需要通过注册中心，就可以获得所有服务的信息。**从此，我们只需要从注册中心拉取服务列表，就能得到最新、最准确的服务信息。这也是我们常说的——服务治理。</p> <h2 id="初识eureka——eureka的两种角色"><a href="#初识eureka——eureka的两种角色" aria-hidden="true" class="header-anchor">#</a> 初识Eureka——Eureka的两种角色</h2> <ul><li><p>Eureka Client</p> <p>注册到Eureka Server的服务，可分为服务提供者(Service Provider)和服务消费者(Service Consumer)。</p> <ul><li><p>Service Provider</p> <p>provider将完成三个任务：</p> <ol><li>注册：将自身注册到注册中心</li> <li>续约：定期向注册中心发送心跳包</li> <li>下线：当provider示例关闭时，将发送下线通知到注册中心</li></ol></li> <li><p>Service Consumer</p> <ol><li>拉取服务列表：向注册中心获取服务信息。</li> <li>服务调用：根据服务信息调用服务。</li></ol></li></ul> <p>值得注意的是，一个服务既可以作为服务提供者(Service Provider)将自身示例注册到Eureka Server，同时也可以作为服务消费者(Service Consumer)从Eureka Server拉取服务信息，完成服务消费。</p></li> <li><p>Eureka Server</p> <p>为其他服务提供托管能力的服务。它将具备以下能力：</p> <ol><li>自我保护：（可配置）默认将15分钟内心跳成功比例低于85%的服务信息进行保存，不再删除服务注册表中的数据（也就是不会注销任何微服务）。当网络故障恢复后，该Eureka Server节点会自动退出自我保护模式，以便其他服务重新连接后能同步数据。</li> <li>定期清除：（可配置）默认每隔60秒，将默认90秒未发送心跳的服务从清单中移除。</li></ol></li></ul> <h2 id="_1-创建gradle父级容器项目"><a href="#_1-创建gradle父级容器项目" aria-hidden="true" class="header-anchor">#</a> 1. 创建Gradle父级容器项目</h2> <p><img src="/assets/img/image-20200408022556581.5767bec8.png" alt="image-20200408022556581"></p> <p><img src="/assets/img/image-20200408022623423.1dcd90e0.png" alt="image-20200408022623423"></p> <p><img src="/assets/img/image-20200408030454398.e9d9314b.png" alt="image-20200408030454398"></p> <p>![image-20200408023208279](../.vuepress/public/img/SpringCloud/image-20200408023208279.png<img src="/assets/img/image-20200408030509021.26e7f413.png" alt="image-20200408030509021"></p> <ul><li><p>build.gradle的文件内容</p> <div class="language-groovy extra-class"><pre class="language-groovy"><code><span class="token comment">// 在module编译时自动执行</span>
+buildscript <span class="token punctuation">{</span>
+    ext <span class="token punctuation">{</span>
+        <span class="token comment">//定义一个变量，统一规定springboot的版本</span>
+        springBootVersion <span class="token operator">=</span> <span class="token string">'1.5.10.RELEASE'</span>
+    <span class="token punctuation">}</span>
+    repositories <span class="token punctuation">{</span>
+        maven <span class="token punctuation">{</span> url <span class="token string">'http://maven.aliyun.com/nexus/content/groups/public/'</span> <span class="token punctuation">}</span>
+        <span class="token function">jcenter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token function">mavenCentral</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token comment">//Spring repo</span>
+        maven <span class="token punctuation">{</span> url <span class="token string gstring">&quot;http://repo.spring.io/snapshot&quot;</span> <span class="token punctuation">}</span>
+        maven <span class="token punctuation">{</span> url <span class="token string gstring">&quot;http://repo.spring.io/milestone&quot;</span> <span class="token punctuation">}</span>
+        maven <span class="token punctuation">{</span> url <span class="token string gstring">&quot;http://repo.spring.io/release&quot;</span> <span class="token punctuation">}</span>
+        maven <span class="token punctuation">{</span> url <span class="token string">'http://repo.spring.io/plugins-snapshot'</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    dependencies <span class="token punctuation">{</span><span class="token comment">//用来打包</span>
+        <span class="token function">classpath</span><span class="token punctuation">(</span><span class="token string gstring">&quot;org.springframework.boot:spring-boot-gradle-plugin:<span class="token expression"><span class="token punctuation">$</span><span class="token punctuation">{</span>springBootVersion<span class="token punctuation">}</span></span>&quot;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+plugins <span class="token punctuation">{</span>
+    id <span class="token string">'java'</span>
+<span class="token punctuation">}</span>
+
+sourceCompatibility <span class="token operator">=</span> <span class="token number">1.8</span>
+
+<span class="token comment">//设定当前所有的项目的配置</span>
+allprojects <span class="token punctuation">{</span>
+    group <span class="token string">'com.microve'</span>
+    version <span class="token string">'1.0-SNAPSHOT'</span>
+
+    ext <span class="token punctuation">{</span>
+        springCloudVersion <span class="token operator">=</span> <span class="token string">'Edgware.SR2'</span>
+    <span class="token punctuation">}</span>
+
+    repositories <span class="token punctuation">{</span>
+        maven <span class="token punctuation">{</span> url <span class="token string">'http://maven.aliyun.com/nexus/content/groups/public/'</span> <span class="token punctuation">}</span>
+        <span class="token function">jcenter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token function">mavenCentral</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token comment">//Spring repo</span>
+        maven <span class="token punctuation">{</span> url <span class="token string gstring">&quot;http://repo.spring.io/snapshot&quot;</span> <span class="token punctuation">}</span>
+        maven <span class="token punctuation">{</span> url <span class="token string gstring">&quot;http://repo.spring.io/milestone&quot;</span> <span class="token punctuation">}</span>
+        maven <span class="token punctuation">{</span> url <span class="token string gstring">&quot;http://repo.spring.io/release&quot;</span> <span class="token punctuation">}</span>
+        maven <span class="token punctuation">{</span> url <span class="token string">'http://repo.spring.io/plugins-snapshot'</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">//设定当前模块的子项目中的配置</span>
+subprojects <span class="token punctuation">{</span>
+    apply plugin<span class="token punctuation">:</span> <span class="token string">'java'</span>
+    apply plugin<span class="token punctuation">:</span> <span class="token string">'idea'</span>
+    apply plugin<span class="token punctuation">:</span> <span class="token string">'spring-boot'</span>
+
+    dependencies <span class="token punctuation">{</span>
+        <span class="token comment">//使用springboot-web组件，但是排除tomcat组件</span>
+        compile <span class="token punctuation">(</span><span class="token string">'org.springframework.boot:spring-boot-starter-web'</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            exclude module<span class="token punctuation">:</span><span class="token string gstring">&quot;spring-boot-starter-tomcat&quot;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">//使用undertow作为servlet容器</span>
+        compile <span class="token string">'org.springframework.boot:spring-boot-starter-undertow'</span>
+        <span class="token comment">//使用健康检查组件</span>
+        compile <span class="token string">'org.springframework.boot:spring-boot-starter-actuator'</span>
+        <span class="token function">testCompile</span><span class="token punctuation">(</span>
+                group<span class="token punctuation">:</span> <span class="token string">'junit'</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'junit'</span><span class="token punctuation">,</span> version<span class="token punctuation">:</span> <span class="token string">'4.12'</span>
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    dependencyManagement <span class="token punctuation">{</span>
+        imports <span class="token punctuation">{</span>
+            <span class="token comment">//加上此配置后，如果需要引用springcloud的组件，就不需要再提供版本信息</span>
+            mavenBom <span class="token string gstring">&quot;org.springframework.cloud:spring-cloud-dependencies:<span class="token expression"><span class="token punctuation">$</span><span class="token punctuation">{</span>springCloudVersion<span class="token punctuation">}</span></span>&quot;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div></li></ul> <h2 id="_2-（可选）配置本地gradle-home"><a href="#_2-（可选）配置本地gradle-home" aria-hidden="true" class="header-anchor">#</a> 2.（可选）配置本地Gradle home</h2> <p>如果跳过此步骤，IDEA将自动下载某个版本的Gradle，由于有时下载很慢。我们可以将一个稳定的Gradle预先下载到本地，让项目加载我们下载好的Gradle。</p> <p><img src="/assets/img/image-20200408023531899.dbe49bd3.png" alt="image-20200408023531899"></p> <p><img src="/assets/img/image-20200408023628422.35a30c12.png" alt="image-20200408023628422"></p> <h2 id="_3-构建eureka-server"><a href="#_3-构建eureka-server" aria-hidden="true" class="header-anchor">#</a> 3. 构建Eureka-Server</h2> <p><img src="/assets/img/image-20200408023948172.5c31196f.png" alt="image-20200408023948172"><img src="/assets/img/image-20200408024001457.4b67307b.png" alt="image-20200408024001457"></p> <p><img src="/assets/img/image-20200408030553573.11e06940.png" alt="image-20200408030553573"></p> <p><img src="/assets/img/image-20200408024125758.82d5f721.png" alt="image-20200408024125758"></p> <ul><li><p>build.gradle配置：</p> <p>除了在父级项目中引入的依赖，还需单独引入作为Eureka-server的相关依赖。</p> <div class="language-groovy extra-class"><pre class="language-groovy"><code>dependencies <span class="token punctuation">{</span>
+    testCompile group<span class="token punctuation">:</span> <span class="token string">'junit'</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'junit'</span><span class="token punctuation">,</span> version<span class="token punctuation">:</span> <span class="token string">'4.12'</span>
+    implementation <span class="token string">'org.springframework.cloud:spring-cloud-starter-eureka-server'</span>
+<span class="token punctuation">}</span>
+</code></pre></div></li> <li><p>application.yml配置：</p> <p>该项目的resource文件夹为默认配置文件夹，在该文件夹下创建application.yml文件。</p> <div class="language- extra-class"><pre class="language-text"><code>server:
+  port: 8000
+spring:
+  application:
+    name: eureka-server
+eureka:
+  instance:
+    # 该服务的主机名称
+    hostname: eureka-center-one
+    # 服务失效时间，Eureka多长时间没收到服务的心跳操作，就剔除该服务，默认90秒
+    lease-expiration-duration-in-seconds: 90
+    # 表示eureka client发送心跳给server端的频率
+    lease-renewal-interval-in-seconds: 30
+  client:
+    # 表示不注册
+    register-with-eureka: false
+    # 表示不拉取
+    fetch-registry: false
+    # 如果不配置此url，将会启动在默认端口8761
+    service-url:
+      defaultZone: http://localhost:8000/eureka/
+  server:
+    # eureka server清理无效节点的时间间隔，默认60000毫秒，即60秒
+    eviction-interval-timer-in-ms: 60000
+    # 自我保护模式（缺省为打开）
+    enable-self-preservation: true
+</code></pre></div><p>关于为什么需要配置defaultZone属性，请参考这篇博客：</p></li> <li><p>创建Starter类</p> <p><img src="/assets/img/image-20200408025000140.da2c671b.png" alt="image-20200408025000140"></p> <div class="language- extra-class"><pre class="language-text"><code>package com.microve;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+
+/**
+ * @author : Li Junyi
+ * @Remark：
+ * @Date 2020-04-05 03:37
+ */
+@SpringBootApplication
+@EnableEurekaServer
+public class EurekaCenterOneStarter {
+    public static void main(String[] args) {
+        SpringApplication.run(EurekaCenterOneStarter.class, args);
+    }
+}
+</code></pre></div></li> <li><p>启动注册中心：</p> <p>启动成功，等待请求。</p> <p><img src="/assets/img/image-20200408024838595.a27c57b0.png" alt="image-20200408024838595"></p></li></ul> <h2 id="_4-构建eureka-client"><a href="#_4-构建eureka-client" aria-hidden="true" class="header-anchor">#</a> 4. 构建Eureka Client</h2> <p>按照与创建Eureka Server相同的步骤创建Eureka Client子项目。不同的是，该模块需要引入作为Eureka-Client的依赖。</p> <ul><li><p>创建子项目</p> <p><img src="/assets/img/image-20200408023948172.5c31196f.png" alt="image-20200408023948172"></p> <p><img src="/assets/img/image-20200408024001457.4b67307b.png" alt="image-20200408024001457"></p> <p><img src="/assets/img/image-20200408030752728.6fea3fb3.png" alt="image-20200408030752728"></p> <p><img src="/assets/img/image-20200408030801066.a42b1742.png" alt="image-20200408030801066"></p></li> <li><p>build.gradle</p> <div class="language- extra-class"><pre class="language-text"><code>dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'org.springframework.cloud:spring-cloud-starter-eureka'
+}
+</code></pre></div></li> <li><p>application.yml</p> <div class="language- extra-class"><pre class="language-text"><code>server:
+  port: 9090
+spring:
+  application:
+    // 当服务消费者需要调用服务提供者时，即可通过此name进行调用。
+    name: eureka-provider
+eureka:
+  client:
+    # 表示eureka client间隔多久去拉取服务注册信息，默认为30秒，对于api-gateway，如果要迅速获取服务注册状态，可以缩小该值.
+    registry-fetch-interval-seconds: 10
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka/
+</code></pre></div></li> <li><p>创建供服务消费者调用的接口</p> <p><img src="/assets/img/image-20200408031300013.a04db829.png" alt="image-20200408031300013"></p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">package</span> com<span class="token punctuation">.</span>microve<span class="token punctuation">.</span>system<span class="token punctuation">.</span>controller<span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>web<span class="token punctuation">.</span>bind<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>GetMapping<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>web<span class="token punctuation">.</span>bind<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>RequestMapping<span class="token punctuation">;</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>web<span class="token punctuation">.</span>bind<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>RestController<span class="token punctuation">;</span>
+
+<span class="token comment">/**
+ * @author : Li Junyi
+ * @Remark：
+ * @Date 2020-04-05 04:02
+ */</span>
+<span class="token annotation punctuation">@RestController</span>
+<span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">&quot;/test&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TestController</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@GetMapping</span>
+    <span class="token keyword">public</span> String <span class="token function">getResult</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">&quot;服务提供者被调用&quot;</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div></li> <li><p>创建启动类</p> <p><img src="/assets/img/image-20200408030247853.7088f277.png" alt="image-20200408030247853"></p> <div class="language- extra-class"><pre class="language-text"><code>package com.microve;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+
+/**
+ * @author : Li Junyi
+ * @Remark：
+ * @Date 2020-04-05 03:58
+ */
+@SpringBootApplication
+@EnableEurekaClient
+public class EurekaProviderStarter {
+    public static void main(String[] args) {
+        SpringApplication.run(EurekaProviderStarter.class, args);
+    }
+}
+
+</code></pre></div></li> <li><p>启动服务提供者</p> <p>启动成功</p> <p><img src="/assets/img/image-20200408030922721.57e5f81b.png" alt="image-20200408030922721"></p> <p>在Eureka-Server的日志中，可以看到provider注册成功</p> <p><img src="/assets/img/image-20200408031030626.5db48c44.png" alt="image-20200408031030626"></p></li></ul> <h2 id="_5-构建服务消费者"><a href="#_5-构建服务消费者" aria-hidden="true" class="header-anchor">#</a> 5. 构建服务消费者</h2> <ul><li><p>创建子项目</p> <p>使用相同步骤创建子项目: eureka-consumer</p> <p><img src="/assets/img/image-20200408031211916.f0badd4c.png" alt="image-20200408031211916"></p></li> <li><p>build.gradle</p> <div class="language-groovy extra-class"><pre class="language-groovy"><code>dependencies <span class="token punctuation">{</span>
+    testCompile group<span class="token punctuation">:</span> <span class="token string">'junit'</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'junit'</span><span class="token punctuation">,</span> version<span class="token punctuation">:</span> <span class="token string">'4.12'</span>
+    implementation <span class="token string">'org.springframework.cloud:spring-cloud-starter-eureka'</span>
+<span class="token punctuation">}</span>
+</code></pre></div></li> <li><p>application.yml</p> <div class="language- extra-class"><pre class="language-text"><code>server:
+  port: 9091
+spring:
+  application:
+    name: eureka-consumer
+eureka:
+  client:
+    # 表示eureka client间隔多久去拉取服务注册信息，默认为30秒，对于api-gateway，如果要迅速获取服务注册状态，可以缩小该值.
+    registry-fetch-interval-seconds: 10
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka/
+</code></pre></div></li> <li><p>编写接口调用Service Provider</p> <p><img src="/assets/img/image-20200408032803657.f83c2433.png" alt="image-20200408032803657">\</p> <div class="language- extra-class"><pre class="language-text"><code>package com.microve.system.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+/**
+ * @author : Li Junyi
+ * @Remark：
+ * @Date 2020-04-05 04:20
+ */
+@RestController
+@RequestMapping(&quot;/consumer&quot;)
+public class ConsumerController {
+    @Autowired
+    private LoadBalancerClient loadBalancerClient;  //ribbon:负载均衡器
+
+    @GetMapping
+    public String consume(){
+        //选择调用的服务的名称
+        //ServiceInstance:封装了服务的基本信息，如：ip、端口号等
+        ServiceInstance si = loadBalancerClient.choose(&quot;eureka-provider&quot;);
+        //拼接访问服务的url
+        StringBuffer sb = new StringBuffer();
+
+        // http://localhost:9090/test
+        sb.append(&quot;http://&quot;).append(si.getHost()).append(&quot;:&quot;).append(si.getPort()).append(&quot;/test&quot;);
+
+        //SpringMVC RestTemplate
+        RestTemplate restTemplate = new RestTemplate();
+        ParameterizedTypeReference&lt;String&gt; type = new ParameterizedTypeReference&lt;String&gt;() {
+        };
+
+        //ResponseEntity：封装了返回值信息
+        ResponseEntity&lt;String&gt; entity = restTemplate.exchange(sb.toString(), HttpMethod.GET, null, type);
+        return entity.getBody();
+    }
+}
+</code></pre></div></li> <li><p>创建启动类</p> <p><img src="/assets/img/image-20200408033450383.50509743.png" alt="image-20200408033450383"></p> <div class="language- extra-class"><pre class="language-text"><code>package com.microve;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+
+/**
+ * @author : Li Junyi
+ * @Remark：
+ * @Date 2020-04-05 04:17
+ */
+@SpringBootApplication
+@EnableEurekaClient
+public class EurekaConsumerStarter {
+    public static void main(String[] args) {
+        SpringApplication.run(EurekaConsumerStarter.class, args);
+    }
+}
+</code></pre></div></li> <li><p>启动服务消费者，并调用服务消费者的接口</p> <p><img src="/assets/img/image-20200408033632732.10ad69ee.png" alt="image-20200408033632732"></p> <p><img src="/assets/img/image-20200408033558255.8790d991.png" alt="image-20200408033558255"></p> <p>成功通过Eureka-Server调用Service-Provider提供的接口。</p> <p><img src="/assets/img/image-20200408033642464.e36e086d.png" alt="image-20200408033642464"></p></li></ul> <h2 id="注意事项"><a href="#注意事项" aria-hidden="true" class="header-anchor">#</a> 注意事项</h2> <ol><li>需要先启动注册中心，再启动提供者、消费者。如果提供者、消费者正在运行，重启注册中心可能会报错。因为提供者、消费者在与注册中心建立连接后，会通过RESTFUL的方式发送心跳至注册中心。</li></ol> <h2 id="源码地址"><a href="#源码地址" aria-hidden="true" class="header-anchor">#</a> 源码地址</h2> <p>源码已上传github, 如果遇到问题可下载源码查看。</p> <p><a href="https://github.com/slowside45/microve" target="_blank" rel="noopener noreferrer">microve<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><!----> <span class="next"><a href="/SpringCloud/eureka-plus.html">
+          Eureka从0到1完整实践(下) —— 基于Eureka实现高可用的服务治理方案
+        </a>
+        →
+      </span></p></div> </div> <!----></div></div>
+    <script src="/assets/js/35.abff669d.js" defer></script><script src="/assets/js/app.6496ed3f.js" defer></script>
+  </body>
+</html>
