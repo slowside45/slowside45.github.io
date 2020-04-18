@@ -37,6 +37,10 @@ module.exports = {
             //     link: '/nginx/'
             // },
             {
+                text: "JVM",
+                link: '/JVM/'
+            },
+            {
                 text: "微服务",
                 link: '/SpringCloud/'
             },
@@ -75,6 +79,9 @@ module.exports = {
                 //         ["learn-spring-boot#diary", "排坑日志"]
                 //     ]
                 // }
+            ],
+            '/JVM/': [
+                'jvm.md'
             ],
             '/SpringCloud/': [
                 'eureka.md',
